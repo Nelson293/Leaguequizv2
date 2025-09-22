@@ -52,190 +52,6 @@
             box-shadow: 0 0 20px rgba(200, 155, 60, 0.6);
         }
 
-        /* Enhanced mystical particles */
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0;
-            animation: particleFloat 12s infinite linear;
-            filter: blur(0.5px);
-        }
-
-        .particle.gold {
-            background: radial-gradient(circle, #ffd700 0%, #c89b3c 100%);
-            box-shadow: 0 0 10px #ffd700;
-        }
-
-        .particle.blue {
-            background: radial-gradient(circle, #43b7ff 0%, #1e90ff 100%);
-            box-shadow: 0 0 10px #43b7ff;
-        }
-
-        .particle.purple {
-            background: radial-gradient(circle, #932b8f 0%, #663399 100%);
-            box-shadow: 0 0 10px #932b8f;
-        }
-
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) translateX(-50px) rotate(0deg) scale(0);
-                opacity: 0;
-            }
-            5% {
-                opacity: 1;
-                transform: translateY(95vh) translateX(-25px) rotate(45deg) scale(1);
-            }
-            95% {
-                opacity: 1;
-                transform: translateY(5vh) translateX(25px) rotate(315deg) scale(1);
-            }
-            100% {
-                transform: translateY(-5vh) translateX(50px) rotate(360deg) scale(0);
-                opacity: 0;
-            }
-        }
-
-        /* Floating quiz symbols with enhanced effects */
-        .quiz-symbol {
-            position: absolute;
-            font-size: 3rem;
-            font-weight: bold;
-            text-shadow: 0 0 20px currentColor;
-            animation: symbolDrift 15s infinite linear;
-            filter: drop-shadow(0 0 10px currentColor);
-        }
-
-        .quiz-symbol.gold {
-            color: rgba(255, 215, 0, 0.4);
-            animation-duration: 18s;
-        }
-
-        .quiz-symbol.blue {
-            color: rgba(67, 183, 255, 0.4);
-            animation-duration: 22s;
-        }
-
-        .quiz-symbol.purple {
-            color: rgba(147, 39, 143, 0.4);
-            animation-duration: 16s;
-        }
-
-        @keyframes symbolDrift {
-            0% {
-                transform: translateX(-15vw) translateY(110vh) rotate(0deg) scale(0.5);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-                transform: translateX(-10vw) translateY(100vh) rotate(36deg) scale(1);
-            }
-            90% {
-                opacity: 1;
-                transform: translateX(110vw) translateY(-10vh) rotate(324deg) scale(1);
-            }
-            100% {
-                transform: translateX(115vw) translateY(-20vh) rotate(360deg) scale(0.5);
-                opacity: 0;
-            }
-        }
-
-        /* Dynamic geometric patterns */
-        .pattern {
-            position: absolute;
-            border: 2px solid;
-            animation: patternPulse 6s infinite ease-in-out;
-            filter: drop-shadow(0 0 10px currentColor);
-        }
-
-        .pattern.gold {
-            border-color: rgba(200, 155, 60, 0.3);
-            background: rgba(200, 155, 60, 0.05);
-        }
-
-        .pattern.blue {
-            border-color: rgba(67, 183, 255, 0.3);
-            background: rgba(67, 183, 255, 0.05);
-        }
-
-        .pattern.purple {
-            border-color: rgba(147, 39, 143, 0.3);
-            background: rgba(147, 39, 143, 0.05);
-        }
-
-        @keyframes patternPulse {
-            0%, 100% {
-                transform: scale(0.8) rotate(0deg);
-                opacity: 0.3;
-                border-width: 1px;
-            }
-            33% {
-                transform: scale(1.2) rotate(120deg);
-                opacity: 0.7;
-                border-width: 3px;
-            }
-            66% {
-                transform: scale(0.9) rotate(240deg);
-                opacity: 0.5;
-                border-width: 2px;
-            }
-        }
-
-        /* Glowing orbs */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            animation: orbFloat 10s infinite ease-in-out;
-        }
-
-        .orb.gold {
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(200, 155, 60, 0.1) 50%, transparent 100%);
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.4);
-        }
-
-        .orb.blue {
-            background: radial-gradient(circle, rgba(67, 183, 255, 0.3) 0%, rgba(30, 144, 255, 0.1) 50%, transparent 100%);
-            box-shadow: 0 0 50px rgba(67, 183, 255, 0.4);
-        }
-
-        .orb.purple {
-            background: radial-gradient(circle, rgba(147, 39, 143, 0.3) 0%, rgba(102, 51, 153, 0.1) 50%, transparent 100%);
-            box-shadow: 0 0 50px rgba(147, 39, 143, 0.4);
-        }
-
-        @keyframes orbFloat {
-            0%, 100% {
-                transform: translateY(0px) scale(1);
-            }
-            50% {
-                transform: translateY(-30px) scale(1.1);
-            }
-        }
-
-        /* Interactive hover effects */
-        body:hover .particle {
-            animation-duration: 8s;
-        }
-
-        body:hover .quiz-symbol {
-            animation-duration: 12s;
-        }
-
-        body:hover .pattern {
-            animation-duration: 4s;
-        }
-
-        /* 3D Model Container */
-        #model-container {
-            position: fixed;
-            top: 15vh;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 400px;
-            height: 300px;
-            z-index: 100;
-            pointer-events: none;
-        }
-
         /* League Title */
         #league-title {
             position: fixed;
@@ -392,39 +208,26 @@
             transform: translateY(-50%) rotate(45deg);
         }
 
-        @keyframes goldShimmer {
-            0% {
-                background-position: 0% 50%;
-                filter: drop-shadow(0 0 15px #c89b3c);
-            }
-            100% {
-                background-position: 100% 50%;
-                filter: drop-shadow(0 0 25px #f0e6d2);
-            }
+        /* 3D Model Containers */
+        #model-left {
+            position: fixed;
+            left: 8vw;
+            top: 15vh;
+            width: 300px;
+            height: 300px;
+            z-index: 99;
         }
 
-        @keyframes titleFloat {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-8px);
-            }
-        }
-
-        #model-canvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 15px;
+        #model-right {
+            position: fixed;
+            right: 8vw;
+            top: 15vh;
+            width: 300px;
+            height: 300px;
+            z-index: 99;
         }
 
         @media (max-width: 768px) {
-            #model-container {
-                width: 300px;
-                height: 225px;
-                top: 25vh;
-            }
-            
             #league-title {
                 top: 5vh;
             }
@@ -443,6 +246,63 @@
                 width: 20px;
                 height: 20px;
             }
+
+            #model-left, #model-right {
+                width: 200px;
+                height: 200px;
+                top: 20vh;
+            }
+
+            #model-left {
+                left: 2vw;
+            }
+
+            #model-right {
+                right: 2vw;
+            }
+        }
+
+        /* Particles and effects */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 12s infinite linear;
+            filter: blur(0.5px);
+        }
+
+        .particle.gold {
+            background: radial-gradient(circle, #ffd700 0%, #c89b3c 100%);
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        .particle.blue {
+            background: radial-gradient(circle, #43b7ff 0%, #1e90ff 100%);
+            box-shadow: 0 0 10px #43b7ff;
+        }
+
+        .particle.purple {
+            background: radial-gradient(circle, #932b8f 0%, #663399 100%);
+            box-shadow: 0 0 10px #932b8f;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(-50px) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+                transform: translateY(95vh) translateX(-25px) rotate(45deg) scale(1);
+            }
+            95% {
+                opacity: 1;
+                transform: translateY(5vh) translateX(25px) rotate(315deg) scale(1);
+            }
+            100% {
+                transform: translateY(-5vh) translateX(50px) rotate(360deg) scale(0);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -458,14 +318,9 @@
         </div>
     </div>
     
-    <!-- 3D Model Containers -->
-    <div id="model-container-left" class="model-container">
-        <canvas id="model-canvas-left" class="model-canvas"></canvas>
-    </div>
-    
-    <div id="model-container-right" class="model-container">
-        <canvas id="model-canvas-right" class="model-canvas"></canvas>
-    </div>
+    <!-- 3D Models -->
+    <div id="model-left"></div>
+    <div id="model-right"></div>
 
     <script>
         // Custom cursor tracking
@@ -487,290 +342,83 @@
         }
         animateCursor();
 
-        // 3D Model Setup
-        let scene, camera, renderer, model, mixer;
-        let sceneLeft, cameraLeft, rendererLeft, modelLeft, mixerLeft;
-        let sceneRight, cameraRight, rendererRight, modelRight, mixerRight;
-        let clock = new THREE.Clock();
-
-        function init3D() {
-            console.log('Initializing 3D models...');
-            console.log('Left container:', document.getElementById('model-container-left'));
-            console.log('Right container:', document.getElementById('model-container-right'));
-            
-            // Initialize left model
-            setTimeout(() => initModel('left'), 100);
-            // Initialize right model with delay to avoid conflicts
-            setTimeout(() => initModel('right'), 500);
-        }
-        
-        function initModel(side) {
-            const container = document.getElementById(`model-container-${side}`);
-            const canvas = document.getElementById(`model-canvas-${side}`);
-            
-            // Check if GLTFLoader is available
-            if (typeof THREE.GLTFLoader === 'undefined') {
-                console.error('GLTFLoader not loaded. Trying alternative approach...');
-                createFallbackModel(side);
-                return;
-            }
+        // Simple 3D Model Setup
+        function createModel(containerId) {
+            const container = document.getElementById(containerId);
             
             // Scene setup
-            const currentScene = new THREE.Scene();
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             
-            // Camera setup
-            const currentCamera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
-            currentCamera.position.set(0, 0, 5);
+            renderer.setSize(300, 300);
+            renderer.setClearColor(0x000000, 0);
+            container.appendChild(renderer.domElement);
             
-            // Renderer setup
-            const currentRenderer = new THREE.WebGLRenderer({ 
-                canvas: canvas,
-                alpha: true,
-                antialias: true
-            });
-            currentRenderer.setSize(container.offsetWidth, container.offsetHeight);
-            currentRenderer.setClearColor(0x000000, 0);
-            currentRenderer.shadowMap.enabled = true;
-            currentRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            
-            // Store references based on side
-            if (side === 'left') {
-                sceneLeft = currentScene;
-                cameraLeft = currentCamera;
-                rendererLeft = currentRenderer;
-            } else {
-                sceneRight = currentScene;
-                cameraRight = currentCamera;
-                rendererRight = currentRenderer;
-            }
-            
-            // Lighting setup
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-            currentScene.add(ambientLight);
-            
-            const directionalLight = new THREE.DirectionalLight(0xffd700, 1);
-            directionalLight.position.set(5, 5, 5);
-            directionalLight.castShadow = true;
-            currentScene.add(directionalLight);
-            
-            const pointLight1 = new THREE.PointLight(0x43b7ff, 0.8, 10);
-            pointLight1.position.set(-3, 2, 3);
-            currentScene.add(pointLight1);
-            
-            const pointLight2 = new THREE.PointLight(0x932b8f, 0.6, 8);
-            pointLight2.position.set(3, -2, 2);
-            currentScene.add(pointLight2);
-            
-            // Load GLB model separately for each side
-            const loader = new THREE.GLTFLoader();
-            
-            console.log(`Starting to load model1.glb for ${side} side...`);
-            
-            loader.load(
-                './model1.glb',
-                function(gltf) {
-                    console.log(`Model loaded successfully for ${side} side!`, gltf);
-                    const currentModel = gltf.scene;
-                    
-                    // Check for animations
-                    let currentMixer = null;
-                    if (gltf.animations && gltf.animations.length > 0) {
-                        console.log(`Found animations for ${side} side:`, gltf.animations.length);
-                        
-                        // Create animation mixer
-                        currentMixer = new THREE.AnimationMixer(currentModel);
-                        
-                        // Play all animations
-                        gltf.animations.forEach((clip, index) => {
-                            console.log(`Playing animation ${index} on ${side} side: ${clip.name}`);
-                            const action = currentMixer.clipAction(clip);
-                            action.play();
-                        });
-                    }
-                    
-                    // Store mixer and model reference
-                    if (side === 'left') {
-                        mixerLeft = currentMixer;
-                        modelLeft = currentModel;
-                    } else {
-                        mixerRight = currentMixer;
-                        modelRight = currentModel;
-                    }
-                    
-                    // Calculate model bounds for proper scaling
-                    const box = new THREE.Box3().setFromObject(currentModel);
-                    const size = box.getSize(new THREE.Vector3());
-                    const maxDim = Math.max(size.x, size.y, size.z);
-                    const scale = 4 / maxDim; // Slightly smaller for side placement
-                    
-                    currentModel.scale.set(scale, scale, scale);
-                    currentModel.position.set(0, 0, 0);
-                    
-                    // Center the model
-                    const center = box.getCenter(new THREE.Vector3());
-                    currentModel.position.sub(center.multiplyScalar(scale));
-                    
-                    // Enable shadows and enhance materials
-                    currentModel.traverse((child) => {
-                        if (child.isMesh) {
-                            child.castShadow = true;
-                            child.receiveShadow = true;
-                            
-                            if (child.material) {
-                                child.material.roughness = 0.3;
-                                child.material.metalness = 0.7;
-                            }
-                        }
-                    });
-                    
-                    currentScene.add(currentModel);
-                    console.log(`Model added to scene for ${side} side`);
-                    
-                    // Start animation loop if not already running
-                    if (!window.animationStarted) {
-                        window.animationStarted = true;
-                        animate3D();
-                    }
-                },
-                function(progress) {
-                    const percentage = (progress.loaded / progress.total * 100);
-                    console.log(`Loading progress for ${side} side:`, percentage + '%');
-                },
-                function(error) {
-                    console.error(`Error loading model1.glb for ${side} side:`, error);
-                    console.log('Make sure model1.glb is in the same folder as index.html');
-                    createFallbackModel(side);
-                }
-            );
-            
-            // Handle window resize
-            window.addEventListener('resize', () => onWindowResize(side), false);
-        }
-        
-        function createFallbackModel(side) {
-            console.log(`Creating fallback 3D object for ${side} side...`);
-            
-            const container = document.getElementById(`model-container-${side}`);
-            const canvas = document.getElementById(`model-canvas-${side}`);
-            
-            // Scene setup
-            const currentScene = new THREE.Scene();
-            const currentCamera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
-            currentCamera.position.set(0, 0, 5);
-            
-            const currentRenderer = new THREE.WebGLRenderer({ 
-                canvas: canvas,
-                alpha: true,
-                antialias: true
-            });
-            currentRenderer.setSize(container.offsetWidth, container.offsetHeight);
-            currentRenderer.setClearColor(0x000000, 0);
-            
-            // Store references
-            if (side === 'left') {
-                sceneLeft = currentScene;
-                cameraLeft = currentCamera;
-                rendererLeft = currentRenderer;
-            } else {
-                sceneRight = currentScene;
-                cameraRight = currentCamera;
-                rendererRight = currentRenderer;
-            }
+            camera.position.z = 5;
             
             // Lighting
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-            currentScene.add(ambientLight);
+            scene.add(ambientLight);
             const directionalLight = new THREE.DirectionalLight(0xffd700, 1);
             directionalLight.position.set(5, 5, 5);
-            currentScene.add(directionalLight);
+            scene.add(directionalLight);
             
-            // Create a cool League-themed 3D object as fallback
-            const group = new THREE.Group();
+            // Load model
+            const loader = new THREE.GLTFLoader();
+            let model, mixer;
+            const clock = new THREE.Clock();
             
-            // Central crystal (bigger)
-            const crystalGeometry = new THREE.OctahedronGeometry(1.2, 0);
-            const crystalMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x43b7ff,
-                transparent: true,
-                opacity: 0.8,
-                shininess: 100
-            });
-            const crystal = new THREE.Mesh(crystalGeometry, crystalMaterial);
-            group.add(crystal);
+            loader.load('./model1.glb',
+                function(gltf) {
+                    model = gltf.scene;
+                    
+                    // Setup animations
+                    if (gltf.animations && gltf.animations.length > 0) {
+                        mixer = new THREE.AnimationMixer(model);
+                        gltf.animations.forEach((clip) => {
+                            mixer.clipAction(clip).play();
+                        });
+                    }
+                    
+                    // Scale model
+                    const box = new THREE.Box3().setFromObject(model);
+                    const size = box.getSize(new THREE.Vector3());
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scale = 3 / maxDim;
+                    model.scale.setScalar(scale);
+                    
+                    // Center model
+                    const center = box.getCenter(new THREE.Vector3());
+                    model.position.sub(center.multiplyScalar(scale));
+                    
+                    scene.add(model);
+                    animate();
+                },
+                undefined,
+                function(error) {
+                    console.error('Error loading model for', containerId, error);
+                    // Fallback cube
+                    const geometry = new THREE.BoxGeometry(2, 2, 2);
+                    const material = new THREE.MeshPhongMaterial({ color: 0xc89b3c });
+                    model = new THREE.Mesh(geometry, material);
+                    scene.add(model);
+                    animate();
+                }
+            );
             
-            // Orbiting rings (bigger)
-            const ringGeometry = new THREE.TorusGeometry(2, 0.12, 8, 16);
-            const ringMaterial1 = new THREE.MeshPhongMaterial({ color: 0xc89b3c });
-            const ring1 = new THREE.Mesh(ringGeometry, ringMaterial1);
-            ring1.rotation.x = Math.PI / 4;
-            group.add(ring1);
-            
-            const ring2 = new THREE.Mesh(ringGeometry, ringMaterial1);
-            ring2.rotation.z = Math.PI / 3;
-            ring2.scale.set(0.8, 0.8, 0.8);
-            group.add(ring2);
-            
-            // Store model reference
-            if (side === 'left') {
-                modelLeft = group;
-            } else {
-                modelRight = group;
-            }
-            
-            currentScene.add(group);
-            animate3D();
-            
-            window.addEventListener('resize', () => onWindowResize(side), false);
-        }
-        
-        function onWindowResize(side) {
-            const container = document.getElementById(`model-container-${side}`);
-            const currentCamera = side === 'left' ? cameraLeft : cameraRight;
-            const currentRenderer = side === 'left' ? rendererLeft : rendererRight;
-            
-            if (currentCamera && currentRenderer) {
-                currentCamera.aspect = container.offsetWidth / container.offsetHeight;
-                currentCamera.updateProjectionMatrix();
-                currentRenderer.setSize(container.offsetWidth, container.offsetHeight);
-            }
-        }
-        
-        function animate3D() {
-            requestAnimationFrame(animate3D);
-            
-            const delta = clock.getDelta();
-            
-            // Update left side
-            if (mixerLeft) {
-                mixerLeft.update(delta);
-            }
-            
-            if (rendererLeft && sceneLeft && cameraLeft) {
-                rendererLeft.render(sceneLeft, cameraLeft);
-            }
-            
-            // Update right side
-            if (mixerRight) {
-                mixerRight.update(delta);
-            }
-            
-            if (rendererRight && sceneRight && cameraRight) {
-                rendererRight.render(sceneRight, cameraRight);
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                if (mixer) {
+                    mixer.update(clock.getDelta());
+                }
+                
+                renderer.render(scene, camera);
             }
         }
-        
-        // Initialize 3D when page loads
-        window.addEventListener('load', function() {
-            // Wait a bit to ensure all scripts are loaded
-            setTimeout(() => {
-                console.log('Checking if THREE and GLTFLoader are available...');
-                console.log('THREE:', typeof THREE);
-                console.log('THREE.GLTFLoader:', typeof THREE.GLTFLoader);
-                init3D();
-            }, 100);
-        });
 
-        // Enhanced particle system
+        // Particle system
         function createParticle() {
             const particle = document.createElement('div');
             particle.className = 'particle';
@@ -791,93 +439,20 @@
             }, 15000);
         }
 
-        // Enhanced quiz symbols
-        function createQuizSymbol() {
-            const symbols = ['?', '!', '★', '◆', '●', '■', '♦', '▲', '✦', '⬟'];
-            const colors = ['gold', 'blue', 'purple'];
-            
-            const symbol = document.createElement('div');
-            symbol.className = 'quiz-symbol';
-            symbol.classList.add(colors[Math.floor(Math.random() * colors.length)]);
-            symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-            symbol.style.top = Math.random() * 100 + 'vh';
-            symbol.style.fontSize = (Math.random() * 2 + 2) + 'rem';
-            symbol.style.animationDelay = Math.random() * 15 + 's';
-            document.body.appendChild(symbol);
-            
+        // Initialize everything
+        window.addEventListener('load', function() {
             setTimeout(() => {
-                if (symbol.parentNode) {
-                    symbol.remove();
-                }
-            }, 25000);
-        }
-
-        // Enhanced geometric patterns
-        function createPattern() {
-            const colors = ['gold', 'blue', 'purple'];
-            const shapes = ['circle', 'square', 'diamond', 'hexagon'];
-            
-            const pattern = document.createElement('div');
-            pattern.className = 'pattern';
-            pattern.classList.add(colors[Math.floor(Math.random() * colors.length)]);
-            
-            const size = Math.random() * 150 + 80;
-            pattern.style.left = Math.random() * 90 + 'vw';
-            pattern.style.top = Math.random() * 90 + 'vh';
-            pattern.style.width = size + 'px';
-            pattern.style.height = size + 'px';
-            pattern.style.animationDelay = Math.random() * 6 + 's';
-            
-            const shapeType = Math.floor(Math.random() * 4);
-            if (shapeType === 0) {
-                pattern.style.borderRadius = '50%';
-            } else if (shapeType === 1) {
-                pattern.style.borderRadius = '15px';
-            } else if (shapeType === 2) {
-                pattern.style.borderRadius = '20px';
-                pattern.style.transform = 'rotate(45deg)';
-            } else {
-                pattern.style.clipPath = 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
-            }
-            
-            document.body.appendChild(pattern);
-        }
-
-        // Create floating orbs
-        function createOrb() {
-            const colors = ['gold', 'blue', 'purple'];
-            const orb = document.createElement('div');
-            orb.className = 'orb';
-            orb.classList.add(colors[Math.floor(Math.random() * colors.length)]);
-            
-            const size = Math.random() * 200 + 100;
-            orb.style.left = Math.random() * 80 + 'vw';
-            orb.style.top = Math.random() * 80 + 'vh';
-            orb.style.width = size + 'px';
-            orb.style.height = size + 'px';
-            orb.style.animationDelay = Math.random() * 10 + 's';
-            
-            document.body.appendChild(orb);
-        }
-
-        // Initialize all animations
-        setInterval(createParticle, 300);
-        setInterval(createQuizSymbol, 1500);
-        
-        // Create static elements
-        for (let i = 0; i < 12; i++) {
-            createPattern();
-        }
-        
-        for (let i = 0; i < 6; i++) {
-            createOrb();
-        }
-
-        // Add mouse interaction effects
-        document.addEventListener('click', (e) => {
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => createParticle(), i * 100);
-            }
+                console.log('Creating left model...');
+                createModel('model-left');
+                
+                setTimeout(() => {
+                    console.log('Creating right model...');
+                    createModel('model-right');
+                }, 1000);
+                
+                // Start particle system
+                setInterval(createParticle, 300);
+            }, 100);
         });
     </script>
 </body>
