@@ -208,7 +208,7 @@
             transform: translateY(-50%) rotate(45deg);
         }
 
-        /* 3D Models - 800x800 with matching gaps */
+        /* 3D Models - 800x800 with proper positioning */
         #model-left {
             position: fixed;
             left: 5%;
@@ -220,7 +220,7 @@
 
         #model-right {
             position: fixed;
-            right: 5%;
+            right: calc(5% + 100px);
             bottom: 5%;
             width: 800px;
             height: 800px;
