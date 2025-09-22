@@ -338,11 +338,11 @@
                     console.log('Model loaded successfully!', gltf);
                     model = gltf.scene;
                     
-                    // Calculate model bounds for proper scaling
+                    // Calculate model bounds for proper scaling (bigger size)
                     const box = new THREE.Box3().setFromObject(model);
                     const size = box.getSize(new THREE.Vector3());
                     const maxDim = Math.max(size.x, size.y, size.z);
-                    const scale = 3 / maxDim;
+                    const scale = 5 / maxDim; // Increased from 3 to 5 for bigger size
                     
                     model.scale.set(scale, scale, scale);
                     model.position.set(0, 0, 0);
@@ -412,8 +412,8 @@
             // Create a cool League-themed 3D object as fallback
             const group = new THREE.Group();
             
-            // Central crystal
-            const crystalGeometry = new THREE.OctahedronGeometry(1, 0);
+            // Central crystal (bigger)
+            const crystalGeometry = new THREE.OctahedronGeometry(1.5, 0); // Increased from 1 to 1.5
             const crystalMaterial = new THREE.MeshPhongMaterial({ 
                 color: 0x43b7ff,
                 transparent: true,
@@ -423,8 +423,8 @@
             const crystal = new THREE.Mesh(crystalGeometry, crystalMaterial);
             group.add(crystal);
             
-            // Orbiting rings
-            const ringGeometry = new THREE.TorusGeometry(2, 0.1, 8, 16);
+            // Orbiting rings (bigger)
+            const ringGeometry = new THREE.TorusGeometry(2.5, 0.15, 8, 16); // Increased size
             const ringMaterial1 = new THREE.MeshPhongMaterial({ color: 0xc89b3c });
             const ring1 = new THREE.Mesh(ringGeometry, ringMaterial1);
             ring1.rotation.x = Math.PI / 4;
@@ -453,10 +453,8 @@
             requestAnimationFrame(animate3D);
             
             if (model) {
-                // Smooth floating rotation
-                model.rotation.y += 0.005;
-                model.rotation.x = Math.sin(Date.now() * 0.001) * 0.1;
-                model.position.y = Math.sin(Date.now() * 0.002) * 0.3;
+                // Simple bobbing up and down motion only
+                model.position.y = Math.sin(Date.now() * 0.002) * 0.5;
             }
             
             renderer.render(scene, camera);
