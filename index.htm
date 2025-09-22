@@ -208,26 +208,26 @@
             transform: translateY(-50%) rotate(45deg);
         }
 
-        /* 3D Model Containers */
+        /* 3D Model Containers - Responsive positioning */
         #model-left {
             position: fixed;
-            left: 12vw;
+            left: 15vw;
             top: 25vh;
-            width: 250px;
-            height: 250px;
+            width: min(280px, 20vw);
+            height: min(280px, 20vw);
             z-index: 99;
         }
 
         #model-right {
             position: fixed;
-            right: 12vw;
+            right: 15vw;
             top: 25vh;
-            width: 250px;
-            height: 250px;
+            width: min(280px, 20vw);
+            height: min(280px, 20vw);
             z-index: 99;
         }
 
-        /* Play Button */
+        /* Play Button - Responsive sizing */
         #play-button {
             position: fixed;
             top: 60vh;
@@ -241,13 +241,13 @@
 
         #play-button:hover {
             transform: translate(-50%, -50%) scale(1.1);
-            filter: brightness(1.2) drop-shadow(0 0 20px rgba(200, 155, 60, 0.8));
+            filter: brightness(1.2) drop-shadow(0 0 25px rgba(200, 155, 60, 0.9));
         }
 
         #play-button img {
-            width: 120px;
+            width: min(180px, 15vw);
             height: auto;
-            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.6));
         }
 
         @keyframes playButtonFloat {
@@ -383,16 +383,18 @@
         }
         animateCursor();
 
-        // Simple 3D Model Setup
+        // Simple 3D Model Setup - Responsive
         function createModel(containerId) {
             const container = document.getElementById(containerId);
+            const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
             
             // Scene setup
             const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+            const camera = new THREE.PerspectiveCamera(75, containerWidth / containerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             
-            renderer.setSize(250, 250);
+            renderer.setSize(containerWidth, containerHeight);
             renderer.setClearColor(0x000000, 0);
             container.appendChild(renderer.domElement);
             
@@ -422,11 +424,11 @@
                         });
                     }
                     
-                    // Scale model
+                    // Scale model based on container size
                     const box = new THREE.Box3().setFromObject(model);
                     const size = box.getSize(new THREE.Vector3());
                     const maxDim = Math.max(size.x, size.y, size.z);
-                    const scale = 3 / maxDim;
+                    const scale = Math.min(containerWidth, containerHeight) * 0.01;
                     model.scale.setScalar(scale);
                     
                     // Center model
@@ -439,8 +441,9 @@
                 undefined,
                 function(error) {
                     console.error('Error loading model for', containerId, error);
-                    // Fallback cube
-                    const geometry = new THREE.BoxGeometry(2, 2, 2);
+                    // Responsive fallback cube
+                    const cubeSize = Math.min(containerWidth, containerHeight) * 0.008;
+                    const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
                     const material = new THREE.MeshPhongMaterial({ color: 0xc89b3c });
                     model = new THREE.Mesh(geometry, material);
                     scene.add(model);
@@ -457,6 +460,15 @@
                 
                 renderer.render(scene, camera);
             }
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                const newWidth = container.offsetWidth;
+                const newHeight = container.offsetHeight;
+                camera.aspect = newWidth / newHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(newWidth, newHeight);
+            });
         }
 
         // Particle system
