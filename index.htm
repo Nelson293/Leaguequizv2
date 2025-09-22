@@ -557,7 +557,7 @@
             pointLight2.position.set(3, -2, 2);
             currentScene.add(pointLight2);
             
-            // Load GLB model
+            // Load GLB model separately for each side
             const loader = new THREE.GLTFLoader();
             
             console.log(`Starting to load model1.glb for ${side} side...`);
@@ -566,7 +566,7 @@
                 './model1.glb',
                 function(gltf) {
                     console.log(`Model loaded successfully for ${side} side!`, gltf);
-                    const currentModel = gltf.scene.clone();
+                    const currentModel = gltf.scene;
                     
                     // Check for animations
                     let currentMixer = null;
@@ -582,11 +582,9 @@
                             const action = currentMixer.clipAction(clip);
                             action.play();
                         });
-                    } else {
-                        console.log(`No animations found in the model for ${side} side`);
                     }
                     
-                    // Store mixer reference
+                    // Store mixer and model reference
                     if (side === 'left') {
                         mixerLeft = currentMixer;
                         modelLeft = currentModel;
@@ -624,8 +622,9 @@
                     currentScene.add(currentModel);
                     console.log(`Model added to scene for ${side} side`);
                     
-                    // Start animation if this is the first model loaded
-                    if ((side === 'left' && !rendererRight) || (side === 'right' && !rendererLeft)) {
+                    // Start animation loop if not already running
+                    if (!window.animationStarted) {
+                        window.animationStarted = true;
                         animate3D();
                     }
                 },
