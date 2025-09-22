@@ -208,13 +208,13 @@
             transform: translateY(-50%) rotate(45deg);
         }
 
-        /* 3D Models - 200% bigger */
+        /* 3D Models - 800x800 with matching gaps */
         #model-left {
             position: fixed;
             left: 5%;
             bottom: 5%;
-            width: 400px;
-            height: 400px;
+            width: 800px;
+            height: 800px;
             z-index: 99;
         }
 
@@ -222,8 +222,8 @@
             position: fixed;
             right: 5%;
             bottom: 5%;
-            width: 400px;
-            height: 400px;
+            width: 800px;
+            height: 800px;
             z-index: 99;
         }
 
@@ -393,7 +393,7 @@
             const camera = new THREE.PerspectiveCamera(75, containerWidth / containerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             
-            renderer.setSize(400, 400);
+            renderer.setSize(800, 800);
             renderer.setClearColor(0x000000, 0);
             container.appendChild(renderer.domElement);
             
