@@ -55,7 +55,7 @@
         /* League Title */
         #league-title {
             position: fixed;
-            top: 8vh;
+            top: 10vh;
             left: 50%;
             transform: translateX(-50%);
             z-index: 101;
@@ -63,149 +63,135 @@
             text-align: center;
         }
 
-        .title-frame {
-            position: relative;
-            padding: 25px 50px 35px 50px;
-            background: 
-                radial-gradient(ellipse at center, rgba(45, 55, 75, 0.4) 0%, rgba(25, 35, 50, 0.8) 70%, rgba(15, 20, 30, 0.95) 100%),
-                linear-gradient(135deg, rgba(35, 45, 65, 0.9) 0%, rgba(20, 25, 40, 0.95) 100%);
-            border: 4px solid transparent;
-            border-radius: 25px;
-            clip-path: polygon(10% 0%, 90% 0%, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0% 85%, 0% 15%);
-            box-shadow: 
-                0 0 30px rgba(0, 0, 0, 0.8),
-                inset 0 4px 15px rgba(70, 85, 110, 0.3),
-                inset 0 -4px 15px rgba(0, 0, 0, 0.7),
-                0 8px 25px rgba(0, 0, 0, 0.4);
-        }
-
-        .title-frame::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            right: -6px;
-            bottom: -6px;
-            background: 
-                linear-gradient(45deg, 
-                    rgba(85, 95, 115, 0.9) 0%, 
-                    rgba(110, 125, 150, 0.95) 25%, 
-                    rgba(130, 145, 170, 1) 50%, 
-                    rgba(110, 125, 150, 0.95) 75%, 
-                    rgba(85, 95, 115, 0.9) 100%
-                );
-            clip-path: polygon(10% 0%, 90% 0%, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0% 85%, 0% 15%);
-            z-index: -1;
-            animation: frameGlow 4s ease-in-out infinite alternate;
-        }
-
-        .title-frame::after {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 20px;
-            right: 20px;
-            height: 6px;
-            background: linear-gradient(90deg, transparent 0%, rgba(120, 135, 160, 0.6) 20%, rgba(150, 165, 190, 0.8) 50%, rgba(120, 135, 160, 0.6) 80%, transparent 100%);
-            border-radius: 3px;
-            animation: topHighlight 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes frameGlow {
-            0% {
-                opacity: 0.7;
-                filter: blur(1px);
-            }
-            100% {
-                opacity: 1;
-                filter: blur(0px);
-            }
-        }
-
-        @keyframes topHighlight {
-            0% {
-                opacity: 0.4;
-                transform: scaleX(0.8);
-            }
-            100% {
-                opacity: 0.8;
-                transform: scaleX(1);
-            }
-        }
-
         .league-text {
             font-family: 'Cinzel', 'Times New Roman', serif;
-            font-size: 3rem;
+            font-size: 4.5rem;
             font-weight: 900;
             margin: 0;
             position: relative;
             z-index: 2;
             
-            /* Authentic League Gold Effect */
-            color: #1a1a1a;
+            /* Enhanced League Gold Gradient */
             background: linear-gradient(
-                45deg,
-                #8B7355 0%,
-                #A67C52 15%,
-                #C8975F 30%,
-                #DAA520 45%,
-                #F4D03F 60%,
-                #DAA520 75%,
-                #A67C52 85%,
-                #8B7355 100%
+                135deg,
+                #4B3621 0%,
+                #8B6914 10%,
+                #B8860B 20%,
+                #DAA520 30%,
+                #FFD700 40%,
+                #FFF8DC 50%,
+                #FFD700 60%,
+                #DAA520 70%,
+                #B8860B 80%,
+                #8B6914 90%,
+                #4B3621 100%
             );
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             
-            /* Multiple text shadows for 3D depth - darker tones */
+            /* Enhanced 3D text effect */
             text-shadow: 
-                1px 1px 0px #5D4E3A,
-                2px 2px 0px #4E3F2C,
-                3px 3px 0px #3F301E,
-                4px 4px 0px #302110,
-                5px 5px 0px #211202,
-                6px 6px 0px #120300,
-                7px 7px 8px rgba(0, 0, 0, 0.6),
-                0 0 20px rgba(218, 165, 32, 0.4),
-                0 0 30px rgba(218, 165, 32, 0.2);
+                0 1px 0 #C89B3C,
+                0 2px 0 #B5853A,
+                0 3px 0 #A26F38,
+                0 4px 0 #8F5936,
+                0 5px 0 #7C4334,
+                0 6px 0 #693032,
+                0 7px 0 #562030,
+                0 8px 0 #43102E,
+                0 9px 0 #30002C,
+                0 10px 20px rgba(0, 0, 0, 0.9),
+                0 0 40px rgba(218, 165, 32, 0.5),
+                0 0 60px rgba(218, 165, 32, 0.3),
+                0 0 80px rgba(218, 165, 32, 0.2);
             
-            letter-spacing: 1px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            animation: textShine 4s ease-in-out infinite alternate;
+            animation: 
+                goldFlow 4s ease-in-out infinite,
+                titleFloat 6s ease-in-out infinite,
+                letterSpacing 8s ease-in-out infinite;
         }
 
-        @keyframes textShine {
+        /* Each letter animation */
+        .league-text span {
+            display: inline-block;
+            animation: letterWave 3s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        @keyframes goldFlow {
+            0%, 100% {
+                background-position: 0% 50%;
+                filter: brightness(1) contrast(1);
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: brightness(1.2) contrast(1.1);
+            }
+        }
+
+        @keyframes titleFloat {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            25% {
+                transform: translateY(-5px) scale(1.02);
+            }
+            75% {
+                transform: translateY(3px) scale(0.98);
+            }
+        }
+
+        @keyframes letterSpacing {
+            0%, 100% {
+                letter-spacing: 4px;
+            }
+            50% {
+                letter-spacing: 6px;
+            }
+        }
+
+        @keyframes letterWave {
+            0%, 100% {
+                transform: translateY(0) rotateZ(0deg);
+            }
+            25% {
+                transform: translateY(-8px) rotateZ(-2deg);
+            }
+            75% {
+                transform: translateY(5px) rotateZ(2deg);
+            }
+        }
+
+        /* Glowing particles around title */
+        .title-glow {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #FFD700 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: glowOrbit 10s linear infinite;
+        }
+
+        @keyframes glowOrbit {
             0% {
-                filter: brightness(0.9) drop-shadow(0 0 15px rgba(218, 165, 32, 0.3));
-                transform: perspective(1000px) rotateX(5deg);
+                transform: rotate(0deg) translateX(150px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
             }
             100% {
-                filter: brightness(1.1) drop-shadow(0 0 25px rgba(218, 165, 32, 0.5));
-                transform: perspective(1000px) rotateX(-2deg);
+                transform: rotate(360deg) translateX(150px) rotate(-360deg);
+                opacity: 0;
             }
-        }
-
-        /* Ornate decorative elements - matching frame colors */
-        .title-ornament {
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            background: radial-gradient(circle, rgba(130, 145, 170, 0.8), rgba(85, 95, 115, 0.9));
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            box-shadow: 0 0 10px rgba(130, 145, 170, 0.4);
-        }
-
-        .ornament-left {
-            top: 50%;
-            left: 12px;
-            transform: translateY(-50%) rotate(45deg);
-        }
-
-        .ornament-right {
-            top: 50%;
-            right: 12px;
-            transform: translateY(-50%) rotate(45deg);
         }
 
         /* 3D Models - Simple positioning */
@@ -258,7 +244,7 @@
             }
         }
 
-        @media (max-width: 768px) {
+                    @media (max-width: 768px) {
             #play-button img {
                 width: 120px;
             }
@@ -266,19 +252,9 @@
                 top: 5vh;
             }
             
-            .title-frame {
-                padding: 25px 40px 35px 40px;
-                clip-path: polygon(8% 0%, 92% 0%, 100% 12%, 100% 88%, 92% 100%, 8% 100%, 0% 88%, 0% 12%);
-            }
-            
             .league-text {
-                font-size: 2.8rem;
-                letter-spacing: 1px;
-            }
-            
-            .title-ornament {
-                width: 20px;
-                height: 20px;
+                font-size: 2.2rem;
+                letter-spacing: 2px;
             }
 
             #model-left, #model-right {
@@ -345,11 +321,7 @@
     
     <!-- League Title -->
     <div id="league-title">
-        <div class="title-frame">
-            <div class="title-ornament ornament-left"></div>
-            <h1 class="league-text">League Of Quizing</h1>
-            <div class="title-ornament ornament-right"></div>
-        </div>
+        <h1 class="league-text" id="animated-title">League Of Quizing</h1>
     </div>
     
     <!-- Play Button -->
@@ -504,6 +476,28 @@
 
         // Initialize everything
         window.addEventListener('load', function() {
+            // Animate title letters individually
+            const title = document.getElementById('animated-title');
+            const text = title.textContent;
+            title.innerHTML = '';
+            
+            text.split('').forEach((letter, i) => {
+                const span = document.createElement('span');
+                span.textContent = letter === ' ' ? '\u00A0' : letter;
+                span.style.setProperty('--i', i);
+                title.appendChild(span);
+            });
+
+            // Create glowing particles around title
+            const titleContainer = document.getElementById('league-title');
+            for (let i = 0; i < 6; i++) {
+                const glow = document.createElement('div');
+                glow.className = 'title-glow';
+                glow.style.animationDelay = `${i * 1.67}s`;
+                glow.style.width = glow.style.height = `${Math.random() * 4 + 2}px`;
+                titleContainer.appendChild(glow);
+            }
+
             setTimeout(() => {
                 console.log('Creating left model...');
                 createModel('model-left', false); // Don't mirror left model
