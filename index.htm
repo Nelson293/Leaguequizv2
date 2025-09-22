@@ -229,7 +229,7 @@
             height: 100px;
             background: linear-gradient(135deg, #0A1428 0%, #0C1D3D 100%);
             border: 2px solid #0596AA;
-            overflow: hidden;
+            overflow: visible;
             transition: all 0.3s ease;
             clip-path: polygon(
                 20px 0%, 
@@ -239,6 +239,92 @@
                 0% 100%, 
                 0% 20px
             );
+        }
+
+        /* Countdown Circle */
+        .countdown-circle {
+            position: absolute;
+            top: 50%;
+            left: -60px;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 80px;
+        }
+
+        .countdown-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .countdown-bg {
+            fill: none;
+            stroke: rgba(5, 150, 170, 0.3);
+            stroke-width: 6;
+        }
+
+        .countdown-progress {
+            fill: none;
+            stroke: #05D4F4;
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 220;
+            stroke-dashoffset: 0;
+            animation: countdown 10s linear infinite;
+            filter: drop-shadow(0 0 8px rgba(5, 212, 244, 0.8));
+        }
+
+        @keyframes countdown {
+            0% {
+                stroke-dashoffset: 0;
+                stroke: #05D4F4;
+            }
+            50% {
+                stroke: #05F4F4;
+            }
+            80% {
+                stroke: #F4A505;
+            }
+            95% {
+                stroke: #F45505;
+            }
+            100% {
+                stroke-dashoffset: 220;
+                stroke: #F45505;
+            }
+        }
+
+        .countdown-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Arial', sans-serif;
+            font-size: 28px;
+            font-weight: bold;
+            color: #05D4F4;
+            text-shadow: 
+                0 0 10px rgba(5, 212, 244, 0.8),
+                0 0 20px rgba(5, 212, 244, 0.5);
+        }
+
+        .countdown-number::after {
+            content: '';
+            animation: countdownNumbers 10s steps(10) infinite;
+        }
+
+        @keyframes countdownNumbers {
+            0% { content: '10'; }
+            10% { content: '9'; }
+            20% { content: '8'; }
+            30% { content: '7'; }
+            40% { content: '6'; }
+            50% { content: '5'; }
+            60% { content: '4'; }
+            70% { content: '3'; }
+            80% { content: '2'; }
+            90% { content: '1'; }
+            100% { content: '0'; }
         }
 
         .accept-button::before {
@@ -421,6 +507,16 @@
                 letter-spacing: 2px;
             }
             
+            .countdown-circle {
+                left: -50px;
+                width: 60px;
+                height: 60px;
+            }
+            
+            .countdown-number {
+                font-size: 22px;
+            }
+            
             #league-title {
                 top: 5vh;
             }
@@ -500,6 +596,13 @@
     <!-- Play Button -->
     <div id="play-button">
         <div class="accept-button">
+            <div class="countdown-circle">
+                <svg class="countdown-svg" viewBox="0 0 80 80">
+                    <circle class="countdown-bg" cx="40" cy="40" r="35"></circle>
+                    <circle class="countdown-progress" cx="40" cy="40" r="35"></circle>
+                </svg>
+                <div class="countdown-number"></div>
+            </div>
             <div class="button-pulse"></div>
             <div class="button-inner">
                 <span class="button-text">ACCEPT</span>
