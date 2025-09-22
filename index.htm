@@ -213,7 +213,7 @@
             z-index: 99;
         }
 
-        /* Play Button - 5px down */
+        /* League Accept Button */
         #play-button {
             position: fixed;
             top: calc(50% + 5px);
@@ -221,33 +221,206 @@
             transform: translate(-50%, -50%);
             z-index: 102;
             cursor: pointer;
+        }
+
+        .accept-button {
+            position: relative;
+            width: 320px;
+            height: 100px;
+            background: linear-gradient(135deg, #0A1428 0%, #0C1D3D 100%);
+            border: 2px solid #0596AA;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            clip-path: polygon(
+                20px 0%, 
+                100% 0%, 
+                100% calc(100% - 20px), 
+                calc(100% - 20px) 100%, 
+                0% 100%, 
+                0% 20px
+            );
+        }
+
+        .accept-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                #0596AA 0%, 
+                #05D4F4 25%, 
+                #0596AA 50%, 
+                #05D4F4 75%, 
+                #0596AA 100%
+            );
+            background-size: 400% 400%;
+            z-index: -2;
+            clip-path: polygon(
+                20px 0%, 
+                100% 0%, 
+                100% calc(100% - 20px), 
+                calc(100% - 20px) 100%, 
+                0% 100%, 
+                0% 20px
+            );
+            animation: borderGlow 3s ease-in-out infinite;
+            opacity: 0.8;
+        }
+
+        .accept-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                transparent 0%, 
+                rgba(5, 212, 244, 0.1) 50%, 
+                transparent 100%
+            );
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .accept-button:hover::after {
+            transform: translateX(100%);
+        }
+
+        @keyframes borderGlow {
+            0%, 100% {
+                background-position: 0% 50%;
+                filter: brightness(1);
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: brightness(1.2);
+            }
+        }
+
+        .button-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0A1E3C 0%, #0C2445 100%);
+            margin: 3px;
+            clip-path: polygon(
+                17px 0%, 
+                100% 0%, 
+                100% calc(100% - 17px), 
+                calc(100% - 17px) 100%, 
+                0% 100%, 
+                0% 17px
+            );
+        }
+
+        .button-text {
+            font-family: 'Arial', sans-serif;
+            font-size: 28px;
+            font-weight: bold;
+            color: #05D4F4;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 
+                0 0 10px rgba(5, 212, 244, 0.8),
+                0 0 20px rgba(5, 212, 244, 0.5),
+                0 0 30px rgba(5, 212, 244, 0.3);
             transition: all 0.3s ease;
         }
 
-        #play-button:hover {
-            transform: translate(-50%, -50%) scale(1.05);
+        .accept-button:hover .button-text {
+            color: #FFFFFF;
+            text-shadow: 
+                0 0 15px rgba(5, 212, 244, 1),
+                0 0 30px rgba(5, 212, 244, 0.8),
+                0 0 45px rgba(5, 212, 244, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* Pulsing effect */
+        .button-pulse {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border: 2px solid #05D4F4;
+            clip-path: polygon(
+                20px 0%, 
+                100% 0%, 
+                100% calc(100% - 20px), 
+                calc(100% - 20px) 100%, 
+                0% 100%, 
+                0% 20px
+            );
+            animation: pulse 2s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        /* Corner accents */
+        .corner-accent {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #05D4F4;
+        }
+
+        .corner-tl {
+            top: -2px;
+            left: -2px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-br {
+            bottom: -2px;
+            right: -2px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* Hover state */
+        .accept-button:hover {
+            transform: scale(1.02);
             filter: brightness(1.1);
         }
 
-        #play-button img {
-            width: 80vw;
-            max-width: 600px;
-            height: auto;
+        .accept-button:hover .corner-accent {
+            border-color: #FFFFFF;
+            filter: drop-shadow(0 0 5px rgba(5, 212, 244, 1));
         }
 
-        @keyframes playButtonFloat {
-            0%, 100% {
-                transform: translate(-50%, -50%) translateY(0px);
-            }
-            50% {
-                transform: translate(-50%, -50%) translateY(-10px);
-            }
+        .accept-button:active {
+            transform: scale(0.98);
         }
 
-                    @media (max-width: 768px) {
-            #play-button img {
-                width: 120px;
+                        @media (max-width: 768px) {
+            .accept-button {
+                width: 240px;
+                height: 80px;
             }
+            
+            .button-text {
+                font-size: 22px;
+                letter-spacing: 2px;
+            }
+            
             #league-title {
                 top: 5vh;
             }
@@ -326,7 +499,14 @@
     
     <!-- Play Button -->
     <div id="play-button">
-        <img src="./playbutton.png" alt="Play Button">
+        <div class="accept-button">
+            <div class="button-pulse"></div>
+            <div class="button-inner">
+                <span class="button-text">ACCEPT</span>
+            </div>
+            <div class="corner-accent corner-tl"></div>
+            <div class="corner-accent corner-br"></div>
+        </div>
     </div>
     
     <!-- 3D Models -->
