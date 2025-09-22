@@ -494,10 +494,14 @@
         let clock = new THREE.Clock();
 
         function init3D() {
+            console.log('Initializing 3D models...');
+            console.log('Left container:', document.getElementById('model-container-left'));
+            console.log('Right container:', document.getElementById('model-container-right'));
+            
             // Initialize left model
-            initModel('left');
-            // Initialize right model
-            initModel('right');
+            setTimeout(() => initModel('left'), 100);
+            // Initialize right model with delay to avoid conflicts
+            setTimeout(() => initModel('right'), 500);
         }
         
         function initModel(side) {
