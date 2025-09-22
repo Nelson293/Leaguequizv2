@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>League of Legends Quiz</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/GLTFLoader.js"></script>
     <style>
         * {
             margin: 0;
@@ -322,22 +322,35 @@
             
             // Load GLB model
             const loader = new THREE.GLTFLoader();
+            
+            // Add loading indicator
+            console.log('Starting to load model1.glb...');
+            
             loader.load(
                 './model1.glb',
                 function(gltf) {
+                    console.log('Model loaded successfully!', gltf);
                     model = gltf.scene;
                     
-                    // Scale and position model
-                    model.scale.set(2, 2, 2);
+                    // Calculate model bounds for proper scaling
+                    const box = new THREE.Box3().setFromObject(model);
+                    const size = box.getSize(new THREE.Vector3());
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scale = 3 / maxDim;
+                    
+                    model.scale.set(scale, scale, scale);
                     model.position.set(0, 0, 0);
                     
-                    // Enable shadows
+                    // Center the model
+                    const center = box.getCenter(new THREE.Vector3());
+                    model.position.sub(center.multiplyScalar(scale));
+                    
+                    // Enable shadows and enhance materials
                     model.traverse((child) => {
                         if (child.isMesh) {
                             child.castShadow = true;
                             child.receiveShadow = true;
                             
-                            // Enhance materials with League-style effects
                             if (child.material) {
                                 child.material.roughness = 0.3;
                                 child.material.metalness = 0.7;
@@ -346,13 +359,29 @@
                     });
                     
                     scene.add(model);
+                    console.log('Model added to scene');
                     animate3D();
                 },
                 function(progress) {
-                    console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
+                    const percentage = (progress.loaded / progress.total * 100);
+                    console.log('Loading progress:', percentage + '%');
                 },
                 function(error) {
-                    console.error('Error loading model:', error);
+                    console.error('Error loading model1.glb:', error);
+                    console.log('Make sure model1.glb is in the same folder as index.html');
+                    
+                    // Create a fallback placeholder cube
+                    const geometry = new THREE.BoxGeometry(2, 2, 2);
+                    const material = new THREE.MeshPhongMaterial({ 
+                        color: 0xc89b3c,
+                        shininess: 100 
+                    });
+                    model = new THREE.Mesh(geometry, material);
+                    model.castShadow = true;
+                    model.receiveShadow = true;
+                    scene.add(model);
+                    console.log('Fallback cube created');
+                    animate3D();
                 }
             );
             
