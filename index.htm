@@ -470,15 +470,10 @@
         function animate3D() {
             requestAnimationFrame(animate3D);
             
-            // Update animations
+            // Update animations only - no manual movement
             if (mixer) {
                 const delta = clock.getDelta();
                 mixer.update(delta);
-            }
-            
-            if (model) {
-                // Simple bobbing up and down motion only (if you still want it)
-                model.position.y += Math.sin(Date.now() * 0.002) * 0.01; // Much smaller bobbing to not interfere with animations
             }
             
             renderer.render(scene, camera);
