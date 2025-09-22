@@ -227,7 +227,43 @@
             z-index: 99;
         }
 
+        /* Play Button */
+        #play-button {
+            position: fixed;
+            top: 50vh;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 102;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: playButtonFloat 3s ease-in-out infinite;
+        }
+
+        #play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            filter: brightness(1.2) drop-shadow(0 0 20px rgba(200, 155, 60, 0.8));
+        }
+
+        #play-button img {
+            width: 150px;
+            height: auto;
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
+        }
+
+        @keyframes playButtonFloat {
+            0%, 100% {
+                transform: translate(-50%, -50%) translateY(0px);
+            }
+            50% {
+                transform: translate(-50%, -50%) translateY(-10px);
+            }
+        }
+
         @media (max-width: 768px) {
+            #play-button img {
+                width: 120px;
+            }
+        }
             #league-title {
                 top: 5vh;
             }
@@ -316,6 +352,11 @@
             <h1 class="league-text">League Of Quizing</h1>
             <div class="title-ornament ornament-right"></div>
         </div>
+    </div>
+    
+    <!-- Play Button -->
+    <div id="play-button">
+        <img src="./playbutton.png" alt="Play Button">
     </div>
     
     <!-- 3D Models -->
