@@ -279,7 +279,8 @@
         animateCursor();
 
         // 3D Model Setup
-        let scene, camera, renderer, model;
+        let scene, camera, renderer, model, mixer;
+        let clock = new THREE.Clock();
         
         function init3D() {
             const container = document.getElementById('model-container');
@@ -337,6 +338,23 @@
                 function(gltf) {
                     console.log('Model loaded successfully!', gltf);
                     model = gltf.scene;
+                    
+                    // Check for animations
+                    if (gltf.animations && gltf.animations.length > 0) {
+                        console.log('Found animations:', gltf.animations.length);
+                        
+                        // Create animation mixer
+                        mixer = new THREE.AnimationMixer(model);
+                        
+                        // Play all animations
+                        gltf.animations.forEach((clip, index) => {
+                            console.log(`Playing animation ${index}: ${clip.name}`);
+                            const action = mixer.clipAction(clip);
+                            action.play();
+                        });
+                    } else {
+                        console.log('No animations found in the model');
+                    }
                     
                     // Calculate model bounds for proper scaling (bigger size)
                     const box = new THREE.Box3().setFromObject(model);
@@ -452,9 +470,15 @@
         function animate3D() {
             requestAnimationFrame(animate3D);
             
+            // Update animations
+            if (mixer) {
+                const delta = clock.getDelta();
+                mixer.update(delta);
+            }
+            
             if (model) {
-                // Simple bobbing up and down motion only
-                model.position.y = Math.sin(Date.now() * 0.002) * 0.5;
+                // Simple bobbing up and down motion only (if you still want it)
+                model.position.y += Math.sin(Date.now() * 0.002) * 0.01; // Much smaller bobbing to not interfere with animations
             }
             
             renderer.render(scene, camera);
