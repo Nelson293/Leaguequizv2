@@ -220,10 +220,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 102;
-            cursor: pointer;
+            display: flex;
+            gap: 20px;
+            align-items: center;
         }
 
-        .accept-button {
+        .accept-button, .decline-button {
             position: relative;
             width: 320px;
             height: 100px;
@@ -239,6 +241,100 @@
                 0% 100%, 
                 0% 20px
             );
+            cursor: pointer;
+        }
+
+        .decline-button {
+            width: 180px;
+            background: linear-gradient(135deg, #1A0A0A 0%, #2D0C0C 100%);
+            border: 2px solid #AA0505;
+        }
+
+        .decline-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                #AA0505 0%, 
+                #F40505 25%, 
+                #AA0505 50%, 
+                #F40505 75%, 
+                #AA0505 100%
+            );
+            background-size: 400% 400%;
+            z-index: -2;
+            clip-path: polygon(
+                20px 0%, 
+                100% 0%, 
+                100% calc(100% - 20px), 
+                calc(100% - 20px) 100%, 
+                0% 100%, 
+                0% 20px
+            );
+            animation: borderGlow 3s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        .decline-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                transparent 0%, 
+                rgba(244, 5, 5, 0.1) 50%, 
+                transparent 100%
+            );
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .decline-button:hover::after {
+            transform: translateX(100%);
+        }
+
+        .decline-button .button-inner {
+            background: linear-gradient(135deg, #1A0A0A 0%, #2D1010 100%);
+        }
+
+        .decline-button .button-text {
+            color: #F40505;
+            font-size: 24px;
+            text-shadow: 
+                0 0 10px rgba(244, 5, 5, 0.8),
+                0 0 20px rgba(244, 5, 5, 0.5),
+                0 0 30px rgba(244, 5, 5, 0.3);
+        }
+
+        .decline-button:hover .button-text {
+            color: #FF6666;
+            text-shadow: 
+                0 0 15px rgba(244, 5, 5, 1),
+                0 0 30px rgba(244, 5, 5, 0.8),
+                0 0 45px rgba(244, 5, 5, 0.6);
+        }
+
+        .decline-button .corner-accent {
+            border-color: #F40505;
+        }
+
+        .decline-button:hover .corner-accent {
+            border-color: #FF6666;
+            filter: drop-shadow(0 0 5px rgba(244, 5, 5, 1));
+        }
+
+        .decline-button:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        .decline-button:active {
+            transform: scale(0.98);
         }
 
         /* Countdown Circle */
@@ -306,25 +402,15 @@
             text-shadow: 
                 0 0 10px rgba(5, 212, 244, 0.8),
                 0 0 20px rgba(5, 212, 244, 0.5);
+            transition: color 0.3s ease;
         }
 
-        .countdown-number::after {
-            content: '';
-            animation: countdownNumbers 10s steps(10) infinite;
+        .countdown-number.warning {
+            color: #F4A505;
         }
 
-        @keyframes countdownNumbers {
-            0% { content: '10'; }
-            10% { content: '9'; }
-            20% { content: '8'; }
-            30% { content: '7'; }
-            40% { content: '6'; }
-            50% { content: '5'; }
-            60% { content: '4'; }
-            70% { content: '3'; }
-            80% { content: '2'; }
-            90% { content: '1'; }
-            100% { content: '0'; }
+        .countdown-number.danger {
+            color: #F45505;
         }
 
         .accept-button::before {
@@ -497,14 +583,28 @@
         }
 
                         @media (max-width: 768px) {
+            #play-button {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
             .accept-button {
                 width: 240px;
                 height: 80px;
             }
             
+            .decline-button {
+                width: 140px;
+                height: 60px;
+            }
+            
             .button-text {
                 font-size: 22px;
                 letter-spacing: 2px;
+            }
+            
+            .decline-button .button-text {
+                font-size: 18px;
             }
             
             .countdown-circle {
@@ -601,11 +701,18 @@
                     <circle class="countdown-bg" cx="40" cy="40" r="35"></circle>
                     <circle class="countdown-progress" cx="40" cy="40" r="35"></circle>
                 </svg>
-                <div class="countdown-number"></div>
+                <div class="countdown-number">10</div>
             </div>
             <div class="button-pulse"></div>
             <div class="button-inner">
                 <span class="button-text">ACCEPT</span>
+            </div>
+            <div class="corner-accent corner-tl"></div>
+            <div class="corner-accent corner-br"></div>
+        </div>
+        <div class="decline-button">
+            <div class="button-inner">
+                <span class="button-text">DECLINE</span>
             </div>
             <div class="corner-accent corner-tl"></div>
             <div class="corner-accent corner-br"></div>
@@ -780,6 +887,35 @@
                 glow.style.width = glow.style.height = `${Math.random() * 4 + 2}px`;
                 titleContainer.appendChild(glow);
             }
+
+            // Countdown animation
+            const countdownNumber = document.querySelector('.countdown-number');
+            const countdownProgress = document.querySelector('.countdown-progress');
+            let countdownValue = 10;
+            
+            function updateCountdown() {
+                countdownValue--;
+                if (countdownValue < 0) {
+                    countdownValue = 10;
+                    countdownNumber.classList.remove('warning', 'danger');
+                }
+                
+                countdownNumber.textContent = countdownValue;
+                
+                // Change color based on time left
+                if (countdownValue <= 3) {
+                    countdownNumber.classList.add('danger');
+                    countdownNumber.classList.remove('warning');
+                } else if (countdownValue <= 5) {
+                    countdownNumber.classList.add('warning');
+                    countdownNumber.classList.remove('danger');
+                } else {
+                    countdownNumber.classList.remove('warning', 'danger');
+                }
+            }
+            
+            // Start countdown
+            setInterval(updateCountdown, 1000);
 
             setTimeout(() => {
                 console.log('Creating left model...');
