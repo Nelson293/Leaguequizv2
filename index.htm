@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>League of Legends</title>
+    <title>League of Legends Quiz</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,17 +15,483 @@
 
         body, html {
             height: 100%;
-            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            cursor: none;
         }
 
         body {
-            background: url('./league-of-legends-quiz-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(200, 155, 60, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 70% 80%, rgba(67, 183, 255, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 20% 70%, rgba(147, 39, 143, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 30%, rgba(255, 215, 0, 0.08) 0%, transparent 70%),
+                linear-gradient(135deg, #0a1428 0%, #1a1f2e 20%, #2d1b69 40%, #1e2328 60%, #3c3c41 80%, #0a1428 100%);
+            background-size: 150% 150%, 120% 120%, 180% 180%, 200% 200%, 100% 100%;
+            background-animation: gradientShift 20s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 0%, 100% 100%, 0% 100%, 100% 0%, 0% 0%; }
+            33% { background-position: 100% 0%, 0% 100%, 100% 100%, 0% 0%, 50% 50%; }
+            66% { background-position: 0% 100%, 100% 0%, 0% 0%, 100% 100%, 100% 0%; }
+        }
+
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(200, 155, 60, 0.8) 0%, rgba(200, 155, 60, 0.2) 70%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease;
+            box-shadow: 0 0 20px rgba(200, 155, 60, 0.6);
+        }
+
+        /* Enhanced mystical particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 12s infinite linear;
+            filter: blur(0.5px);
+        }
+
+        .particle.gold {
+            background: radial-gradient(circle, #ffd700 0%, #c89b3c 100%);
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        .particle.blue {
+            background: radial-gradient(circle, #43b7ff 0%, #1e90ff 100%);
+            box-shadow: 0 0 10px #43b7ff;
+        }
+
+        .particle.purple {
+            background: radial-gradient(circle, #932b8f 0%, #663399 100%);
+            box-shadow: 0 0 10px #932b8f;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(-50px) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+                transform: translateY(95vh) translateX(-25px) rotate(45deg) scale(1);
+            }
+            95% {
+                opacity: 1;
+                transform: translateY(5vh) translateX(25px) rotate(315deg) scale(1);
+            }
+            100% {
+                transform: translateY(-5vh) translateX(50px) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Floating quiz symbols with enhanced effects */
+        .quiz-symbol {
+            position: absolute;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px currentColor;
+            animation: symbolDrift 15s infinite linear;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .quiz-symbol.gold {
+            color: rgba(255, 215, 0, 0.4);
+            animation-duration: 18s;
+        }
+
+        .quiz-symbol.blue {
+            color: rgba(67, 183, 255, 0.4);
+            animation-duration: 22s;
+        }
+
+        .quiz-symbol.purple {
+            color: rgba(147, 39, 143, 0.4);
+            animation-duration: 16s;
+        }
+
+        @keyframes symbolDrift {
+            0% {
+                transform: translateX(-15vw) translateY(110vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateX(-10vw) translateY(100vh) rotate(36deg) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateX(110vw) translateY(-10vh) rotate(324deg) scale(1);
+            }
+            100% {
+                transform: translateX(115vw) translateY(-20vh) rotate(360deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Dynamic geometric patterns */
+        .pattern {
+            position: absolute;
+            border: 2px solid;
+            animation: patternPulse 6s infinite ease-in-out;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .pattern.gold {
+            border-color: rgba(200, 155, 60, 0.3);
+            background: rgba(200, 155, 60, 0.05);
+        }
+
+        .pattern.blue {
+            border-color: rgba(67, 183, 255, 0.3);
+            background: rgba(67, 183, 255, 0.05);
+        }
+
+        .pattern.purple {
+            border-color: rgba(147, 39, 143, 0.3);
+            background: rgba(147, 39, 143, 0.05);
+        }
+
+        @keyframes patternPulse {
+            0%, 100% {
+                transform: scale(0.8) rotate(0deg);
+                opacity: 0.3;
+                border-width: 1px;
+            }
+            33% {
+                transform: scale(1.2) rotate(120deg);
+                opacity: 0.7;
+                border-width: 3px;
+            }
+            66% {
+                transform: scale(0.9) rotate(240deg);
+                opacity: 0.5;
+                border-width: 2px;
+            }
+        }
+
+        /* Glowing orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            animation: orbFloat 10s infinite ease-in-out;
+        }
+
+        .orb.gold {
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(200, 155, 60, 0.1) 50%, transparent 100%);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.4);
+        }
+
+        .orb.blue {
+            background: radial-gradient(circle, rgba(67, 183, 255, 0.3) 0%, rgba(30, 144, 255, 0.1) 50%, transparent 100%);
+            box-shadow: 0 0 50px rgba(67, 183, 255, 0.4);
+        }
+
+        .orb.purple {
+            background: radial-gradient(circle, rgba(147, 39, 143, 0.3) 0%, rgba(102, 51, 153, 0.1) 50%, transparent 100%);
+            box-shadow: 0 0 50px rgba(147, 39, 143, 0.4);
+        }
+
+        @keyframes orbFloat {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+            }
+            50% {
+                transform: translateY(-30px) scale(1.1);
+            }
+        }
+
+        /* Interactive hover effects */
+        body:hover .particle {
+            animation-duration: 8s;
+        }
+
+        body:hover .quiz-symbol {
+            animation-duration: 12s;
+        }
+
+        body:hover .pattern {
+            animation-duration: 4s;
+        }
+
+        /* 3D Model Container */
+        #model-container {
+            position: fixed;
+            top: 10vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 300px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        #model-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+        }
+
+        @media (max-width: 768px) {
+            #model-container {
+                width: 300px;
+                height: 225px;
+                top: 5vh;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="cursor" id="cursor"></div>
+    
+    <!-- 3D Model Container -->
+    <div id="model-container">
+        <canvas id="model-canvas"></canvas>
+    </div>
+
+    <script>
+        // Custom cursor tracking
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // 3D Model Setup
+        let scene, camera, renderer, model;
+        
+        function init3D() {
+            const container = document.getElementById('model-container');
+            const canvas = document.getElementById('model-canvas');
+            
+            // Scene setup
+            scene = new THREE.Scene();
+            
+            // Camera setup
+            camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
+            camera.position.set(0, 0, 5);
+            
+            // Renderer setup
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas,
+                alpha: true,
+                antialias: true
+            });
+            renderer.setSize(container.offsetWidth, container.offsetHeight);
+            renderer.setClearColor(0x000000, 0);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            
+            // Lighting setup
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffd700, 1);
+            directionalLight.position.set(5, 5, 5);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+            
+            const pointLight1 = new THREE.PointLight(0x43b7ff, 0.8, 10);
+            pointLight1.position.set(-3, 2, 3);
+            scene.add(pointLight1);
+            
+            const pointLight2 = new THREE.PointLight(0x932b8f, 0.6, 8);
+            pointLight2.position.set(3, -2, 2);
+            scene.add(pointLight2);
+            
+            // Load GLB model
+            const loader = new THREE.GLTFLoader();
+            loader.load(
+                './model1.glb',
+                function(gltf) {
+                    model = gltf.scene;
+                    
+                    // Scale and position model
+                    model.scale.set(2, 2, 2);
+                    model.position.set(0, 0, 0);
+                    
+                    // Enable shadows
+                    model.traverse((child) => {
+                        if (child.isMesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            
+                            // Enhance materials with League-style effects
+                            if (child.material) {
+                                child.material.roughness = 0.3;
+                                child.material.metalness = 0.7;
+                            }
+                        }
+                    });
+                    
+                    scene.add(model);
+                    animate3D();
+                },
+                function(progress) {
+                    console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
+                },
+                function(error) {
+                    console.error('Error loading model:', error);
+                }
+            );
+            
+            // Handle window resize
+            window.addEventListener('resize', onWindowResize, false);
+        }
+        
+        function onWindowResize() {
+            const container = document.getElementById('model-container');
+            camera.aspect = container.offsetWidth / container.offsetHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.offsetWidth, container.offsetHeight);
+        }
+        
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            
+            if (model) {
+                // Smooth floating rotation
+                model.rotation.y += 0.005;
+                model.rotation.x = Math.sin(Date.now() * 0.001) * 0.1;
+                model.position.y = Math.sin(Date.now() * 0.002) * 0.3;
+            }
+            
+            renderer.render(scene, camera);
+        }
+        
+        // Initialize 3D when page loads
+        init3D();
+
+        // Enhanced particle system
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const colors = ['gold', 'blue', 'purple'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            particle.classList.add(color);
+            
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.width = particle.style.height = (Math.random() * 8 + 4) + 'px';
+            particle.style.animationDelay = Math.random() * 12 + 's';
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.remove();
+                }
+            }, 15000);
+        }
+
+        // Enhanced quiz symbols
+        function createQuizSymbol() {
+            const symbols = ['?', '!', '★', '◆', '●', '■', '♦', '▲', '✦', '⬟'];
+            const colors = ['gold', 'blue', 'purple'];
+            
+            const symbol = document.createElement('div');
+            symbol.className = 'quiz-symbol';
+            symbol.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+            symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            symbol.style.top = Math.random() * 100 + 'vh';
+            symbol.style.fontSize = (Math.random() * 2 + 2) + 'rem';
+            symbol.style.animationDelay = Math.random() * 15 + 's';
+            document.body.appendChild(symbol);
+            
+            setTimeout(() => {
+                if (symbol.parentNode) {
+                    symbol.remove();
+                }
+            }, 25000);
+        }
+
+        // Enhanced geometric patterns
+        function createPattern() {
+            const colors = ['gold', 'blue', 'purple'];
+            const shapes = ['circle', 'square', 'diamond', 'hexagon'];
+            
+            const pattern = document.createElement('div');
+            pattern.className = 'pattern';
+            pattern.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+            
+            const size = Math.random() * 150 + 80;
+            pattern.style.left = Math.random() * 90 + 'vw';
+            pattern.style.top = Math.random() * 90 + 'vh';
+            pattern.style.width = size + 'px';
+            pattern.style.height = size + 'px';
+            pattern.style.animationDelay = Math.random() * 6 + 's';
+            
+            const shapeType = Math.floor(Math.random() * 4);
+            if (shapeType === 0) {
+                pattern.style.borderRadius = '50%';
+            } else if (shapeType === 1) {
+                pattern.style.borderRadius = '15px';
+            } else if (shapeType === 2) {
+                pattern.style.borderRadius = '20px';
+                pattern.style.transform = 'rotate(45deg)';
+            } else {
+                pattern.style.clipPath = 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
+            }
+            
+            document.body.appendChild(pattern);
+        }
+
+        // Create floating orbs
+        function createOrb() {
+            const colors = ['gold', 'blue', 'purple'];
+            const orb = document.createElement('div');
+            orb.className = 'orb';
+            orb.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+            
+            const size = Math.random() * 200 + 100;
+            orb.style.left = Math.random() * 80 + 'vw';
+            orb.style.top = Math.random() * 80 + 'vh';
+            orb.style.width = size + 'px';
+            orb.style.height = size + 'px';
+            orb.style.animationDelay = Math.random() * 10 + 's';
+            
+            document.body.appendChild(orb);
+        }
+
+        // Initialize all animations
+        setInterval(createParticle, 300);
+        setInterval(createQuizSymbol, 1500);
+        
+        // Create static elements
+        for (let i = 0; i < 12; i++) {
+            createPattern();
+        }
+        
+        for (let i = 0; i < 6; i++) {
+            createOrb();
+        }
+
+        // Add mouse interaction effects
+        document.addEventListener('click', (e) => {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => createParticle(), i * 100);
+            }
+        });
+    </script>
 </body>
 </html>
