@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick Your Role - League of Legends Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            cursor: none;
+        }
+
+        body {
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(200, 155, 60, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 70% 80%, rgba(67, 183, 255, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 20% 70%, rgba(147, 39, 143, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 30%, rgba(255, 215, 0, 0.08) 0%, transparent 70%),
+                linear-gradient(135deg, #0a1428 0%, #1a1f2e 20%, #2d1b69 40%, #1e2328 60%, #3c3c41 80%, #0a1428 100%);
+            background-size: 150% 150%, 120% 120%, 180% 180%, 200% 200%, 100% 100%;
+            background-animation: gradientShift 20s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 0%, 100% 100%, 0% 100%, 100% 0%, 0% 0%; }
+            33% { background-position: 100% 0%, 0% 100%, 100% 100%, 0% 0%, 50% 50%; }
+            66% { background-position: 0% 100%, 100% 0%, 0% 0%, 100% 100%, 100% 0%; }
+        }
+
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(200, 155, 60, 0.8) 0%, rgba(200, 155, 60, 0.2) 70%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease;
+            box-shadow: 0 0 20px rgba(200, 155, 60, 0.6);
+        }
+
+        /* Title */
+        #page-title {
+            position: fixed;
+            top: 10vh;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 101;
+            pointer-events: none;
+            text-align: center;
+        }
+
+        .title-text {
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            
+            /* Enhanced League Gold Gradient */
+            background: linear-gradient(
+                135deg,
+                #4B3621 0%,
+                #8B6914 10%,
+                #B8860B 20%,
+                #DAA520 30%,
+                #FFD700 40%,
+                #FFF8DC 50%,
+                #FFD700 60%,
+                #DAA520 70%,
+                #B8860B 80%,
+                #8B6914 90%,
+                #4B3621 100%
+            );
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            
+            /* Enhanced 3D text effect */
+            text-shadow: 
+                0 1px 0 #C89B3C,
+                0 2px 0 #B5853A,
+                0 3px 0 #A26F38,
+                0 4px 0 #8F5936,
+                0 5px 0 #7C4334,
+                0 6px 0 #693032,
+                0 7px 0 #562030,
+                0 8px 0 #43102E,
+                0 9px 0 #30002C,
+                0 10px 20px rgba(0, 0, 0, 0.9),
+                0 0 40px rgba(218, 165, 32, 0.5),
+                0 0 60px rgba(218, 165, 32, 0.3),
+                0 0 80px rgba(218, 165, 32, 0.2);
+            
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            animation: 
+                goldFlow 4s ease-in-out infinite,
+                titleFloat 6s ease-in-out infinite,
+                letterSpacing 8s ease-in-out infinite;
+        }
+
+        /* Each letter animation */
+        .title-text span {
+            display: inline-block;
+            animation: letterWave 3s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        @keyframes goldFlow {
+            0%, 100% {
+                background-position: 0% 50%;
+                filter: brightness(1) contrast(1);
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: brightness(1.2) contrast(1.1);
+            }
+        }
+
+        @keyframes titleFloat {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            25% {
+                transform: translateY(-5px) scale(1.02);
+            }
+            75% {
+                transform: translateY(3px) scale(0.98);
+            }
+        }
+
+        @keyframes letterSpacing {
+            0%, 100% {
+                letter-spacing: 4px;
+            }
+            50% {
+                letter-spacing: 6px;
+            }
+        }
+
+        @keyframes letterWave {
+            0%, 100% {
+                transform: translateY(0) rotateZ(0deg);
+            }
+            25% {
+                transform: translateY(-8px) rotateZ(-2deg);
+            }
+            75% {
+                transform: translateY(5px) rotateZ(2deg);
+            }
+        }
+
+        /* Glowing particles around title */
+        .title-glow {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #FFD700 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: glowOrbit 10s linear infinite;
+        }
+
+        @keyframes glowOrbit {
+            0% {
+                transform: rotate(0deg) translateX(150px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(360deg) translateX(150px) rotate(-360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Role Selection Container */
+        .role-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            z-index: 100;
+        }
+
+        /* Role Cards */
+        .role-card {
+            width: 200px;
+            height: 300px;
+            background: linear-gradient(135deg, #0A1428 0%, #0C1D3D 100%);
+            border: 3px solid #0596AA;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            clip-path: polygon(
+                15px 0%, 
+                100% 0%, 
+                100% calc(100% - 15px), 
+                calc(100% - 15px) 100%, 
+                0% 100%, 
+                0% 15px
+            );
+        }
+
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, 
+                #0596AA 0%, 
+                #05D4F4 25%, 
+                #0596AA 50%, 
+                #05D4F4 75%, 
+                #0596AA 100%
+            );
+            background-size: 400% 400%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            clip-path: polygon(
+                15px 0%, 
+                100% 0%, 
+                100% calc(100% - 15px), 
+                calc(100% - 15px) 100%, 
+                0% 100%, 
+                0% 15px
+            );
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        .role-card:hover::before {
+            opacity: 1;
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .role-icon {
+            width: 100%;
+            height: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: #0596AA;
+            transition: all 0.3s ease;
+        }
+
+        .role-card:hover .role-icon {
+            color: #05D4F4;
+            filter: drop-shadow(0 0 20px rgba(5, 212, 244, 0.8));
+        }
+
+        .role-name {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(10, 30, 60, 0.9) 0%, rgba(12, 36, 69, 0.9) 100%);
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #05D4F4;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(5, 212, 244, 0.8);
+        }
+
+        /* Role specific colors */
+        .role-card.top .role-icon { color: #F39C12; }
+        .role-card.top:hover .role-icon { color: #FFD700; }
+        .role-card.top { border-color: #F39C12; }
+        .role-card.top::before { background: linear-gradient(45deg, #F39C12 0%, #FFD700 25%, #F39C12 50%, #FFD700 75%, #F39C12 100%); }
+
+        .role-card.jungle .role-icon { color: #27AE60; }
+        .role-card.jungle:hover .role-icon { color: #2ECC71; }
+        .role-card.jungle { border-color: #27AE60; }
+        .role-card.jungle::before { background: linear-gradient(45deg, #27AE60 0%, #2ECC71 25%, #27AE60 50%, #2ECC71 75%, #27AE60 100%); }
+
+        .role-card.mid .role-icon { color: #9B59B6; }
+        .role-card.mid:hover .role-icon { color: #BF6EDB; }
+        .role-card.mid { border-color: #9B59B6; }
+        .role-card.mid::before { background: linear-gradient(45deg, #9B59B6 0%, #BF6EDB 25%, #9B59B6 50%, #BF6EDB 75%, #9B59B6 100%); }
+
+        .role-card.adc .role-icon { color: #E74C3C; }
+        .role-card.adc:hover .role-icon { color: #FF6B6B; }
+        .role-card.adc { border-color: #E74C3C; }
+        .role-card.adc::before { background: linear-gradient(45deg, #E74C3C 0%, #FF6B6B 25%, #E74C3C 50%, #FF6B6B 75%, #E74C3C 100%); }
+
+        .role-card.support .role-icon { color: #3498DB; }
+        .role-card.support:hover .role-icon { color: #5DADE2; }
+        .role-card.support { border-color: #3498DB; }
+        .role-card.support::before { background: linear-gradient(45deg, #3498DB 0%, #5DADE2 25%, #3498DB 50%, #5DADE2 75%, #3498DB 100%); }
+
+        @keyframes borderGlow {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 12s infinite linear;
+            filter: blur(0.5px);
+        }
+
+        .particle.gold {
+            background: radial-gradient(circle, #ffd700 0%, #c89b3c 100%);
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        .particle.blue {
+            background: radial-gradient(circle, #43b7ff 0%, #1e90ff 100%);
+            box-shadow: 0 0 10px #43b7ff;
+        }
+
+        .particle.purple {
+            background: radial-gradient(circle, #932b8f 0%, #663399 100%);
+            box-shadow: 0 0 10px #932b8f;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(-50px) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+                transform: translateY(95vh) translateX(-25px) rotate(45deg) scale(1);
+            }
+            95% {
+                opacity: 1;
+                transform: translateY(5vh) translateX(25px) rotate(315deg) scale(1);
+            }
+            100% {
+                transform: translateY(-5vh) translateX(50px) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title-text {
+                font-size: 2.5rem;
+            }
+            
+            .role-container {
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .role-card {
+                width: 150px;
+                height: 220px;
+            }
+            
+            .role-icon {
+                font-size: 60px;
+            }
+            
+            .role-name {
+                font-size: 18px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    
+    <!-- Title -->
+    <div id="page-title">
+        <h1 class="title-text" id="animated-title">Pick Your Role</h1>
+    </div>
+    
+    <!-- Role Selection -->
+    <div class="role-container">
+        <div class="role-card top" onclick="selectRole('top')">
+            <div class="role-icon">⚔️</div>
+            <div class="role-name">TOP</div>
+        </div>
+        
+        <div class="role-card jungle" onclick="selectRole('jungle')">
+            <div class="role-icon">🌿</div>
+            <div class="role-name">JUNGLE</div>
+        </div>
+        
+        <div class="role-card mid" onclick="selectRole('mid')">
+            <div class="role-icon">🔮</div>
+            <div class="role-name">MID</div>
+        </div>
+        
+        <div class="role-card adc" onclick="selectRole('adc')">
+            <div class="role-icon">🏹</div>
+            <div class="role-name">ADC</div>
+        </div>
+        
+        <div class="role-card support" onclick="selectRole('support')">
+            <div class="role-icon">🛡️</div>
+            <div class="role-name">SUPPORT</div>
+        </div>
+    </div>
+
+    <script>
+        // Custom cursor tracking
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Particle system
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const colors = ['gold', 'blue', 'purple'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            particle.classList.add(color);
+            
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.width = particle.style.height = (Math.random() * 8 + 4) + 'px';
+            particle.style.animationDelay = Math.random() * 12 + 's';
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.remove();
+                }
+            }, 15000);
+        }
+
+        // Initialize animations
+        window.addEventListener('load', function() {
+            // Animate title letters
+            const title = document.getElementById('animated-title');
+            const text = title.textContent;
+            title.innerHTML = '';
+            
+            text.split('').forEach((letter, i) => {
+                const span = document.createElement('span');
+                span.textContent = letter === ' ' ? '\u00A0' : letter;
+                span.style.setProperty('--i', i);
+                title.appendChild(span);
+            });
+
+            // Create glowing particles around title
+            const titleContainer = document.getElementById('page-title');
+            for (let i = 0; i < 6; i++) {
+                const glow = document.createElement('div');
+                glow.className = 'title-glow';
+                glow.style.animationDelay = `${i * 1.67}s`;
+                glow.style.width = glow.style.height = `${Math.random() * 4 + 2}px`;
+                titleContainer.appendChild(glow);
+            }
+            
+            // Start particle system
+            setInterval(createParticle, 300);
+        });
+
+        // Role selection function
+        function selectRole(role) {
+            console.log('Selected role:', role);
+            // You can add navigation to quiz page here
+            // window.location.href = `quiz.html?role=${role}`;
+        }
+    </script>
+</body>
+</html>
