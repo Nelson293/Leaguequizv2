@@ -221,7 +221,8 @@
             transform: translate(-50%, -50%);
             z-index: 102;
             display: flex;
-            gap: 20px;
+            flex-direction: column;
+            gap: 15px;
             align-items: center;
         }
 
@@ -245,7 +246,6 @@
         }
 
         .decline-button {
-            width: 180px;
             background: linear-gradient(135deg, #1A0A0A 0%, #2D0C0C 100%);
             border: 2px solid #AA0505;
         }
@@ -304,7 +304,6 @@
 
         .decline-button .button-text {
             color: #F40505;
-            font-size: 24px;
             text-shadow: 
                 0 0 10px rgba(244, 5, 5, 0.8),
                 0 0 20px rgba(244, 5, 5, 0.5),
@@ -583,28 +582,14 @@
         }
 
                         @media (max-width: 768px) {
-            #play-button {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .accept-button {
+            .accept-button, .decline-button {
                 width: 240px;
                 height: 80px;
-            }
-            
-            .decline-button {
-                width: 140px;
-                height: 60px;
             }
             
             .button-text {
                 font-size: 22px;
                 letter-spacing: 2px;
-            }
-            
-            .decline-button .button-text {
-                font-size: 18px;
             }
             
             .countdown-circle {
@@ -690,7 +675,7 @@
     
     <!-- League Title -->
     <div id="league-title">
-        <h1 class="league-text" id="animated-title">League Of Quizzing</h1>
+        <h1 class="league-text" id="animated-title">League Of Quizing</h1>
     </div>
     
     <!-- Play Button -->
