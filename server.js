@@ -2,8 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -12,28 +11,22 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.static('public'));
-app.use(cookieParser());
-app.use(cors());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/league-quiz', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/league-quiz')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-// Session Configuration
+// Session setup with MongoDB store
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your-secret-key',
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/league-quiz',
-    touchAfter: 24 * 3600 // lazy session update
+    mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/league-quiz'
   }),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production'
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
   }
 }));
 
@@ -45,7 +38,7 @@ const userSchema = new mongoose.Schema({
   quizProgress: {
     score: { type: Number, default: 0 },
     questionsAnswered: { type: Number, default: 0 },
-    answers: [{ 
+    answers: [{
       questionId: String,
       answer: String,
       correct: Boolean
@@ -57,9 +50,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// Routes
-
-// Get user state
+// API Routes
 app.get('/api/state', async (req, res) => {
   try {
     let user = await User.findOne({ sessionId: req.session.id });
@@ -79,7 +70,6 @@ app.get('/api/state', async (req, res) => {
   }
 });
 
-// Update user state
 app.post('/api/state', async (req, res) => {
   try {
     const { currentPage, selectedRole, quizProgress } = req.body;
@@ -103,26 +93,13 @@ app.post('/api/state', async (req, res) => {
   }
 });
 
-// Reset user progress
-app.post('/api/reset', async (req, res) => {
-  try {
-    await User.findOneAndUpdate(
-      { sessionId: req.session.id },
-      { 
-        currentPage: 'index',
-        selectedRole: null,
-        quizProgress: {
-          score: 0,
-          questionsAnswered: 0,
-          answers: []
-        }
-      }
-    );
-    
-    res.json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to reset progress' });
-  }
+// Serve HTML files
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/role-select.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'role-select.html'));
 });
 
 app.listen(PORT, () => {
