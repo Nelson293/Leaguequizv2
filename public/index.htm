@@ -680,7 +680,7 @@
     
     <!-- Play Button -->
     <div id="play-button">
-        <div class="accept-button" id="accept-btn">
+        <div class="accept-button" onclick="window.location.href='role-select.html'">
             <div class="countdown-circle">
                 <svg class="countdown-svg" viewBox="0 0 80 80">
                     <circle class="countdown-bg" cx="40" cy="40" r="35"></circle>
@@ -709,97 +709,6 @@
     <div id="model-right"></div>
 
     <script>
-        // State management
-        class StateManager {
-            constructor() {
-                this.state = {
-                    currentPage: 'index',
-                    selectedRole: null,
-                    quizProgress: {
-                        score: 0,
-                        questionsAnswered: 0,
-                        answers: []
-                    }
-                };
-                this.init();
-            }
-
-            async init() {
-                // Load saved state on page load
-                await this.loadState();
-                this.navigateToSavedPage();
-            }
-
-            async loadState() {
-                try {
-                    const response = await fetch('/api/state');
-                    if (response.ok) {
-                        const data = await response.json();
-                        this.state = data;
-                    }
-                } catch (error) {
-                    console.error('Failed to load state:', error);
-                    // If backend is not available, try localStorage as fallback
-                    const savedState = localStorage.getItem('leagueQuizState');
-                    if (savedState) {
-                        this.state = JSON.parse(savedState);
-                    }
-                }
-            }
-
-            async saveState(updates = {}) {
-                try {
-                    const newState = { ...this.state, ...updates };
-                    
-                    // Try to save to backend
-                    const response = await fetch('/api/state', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(newState)
-                    });
-                    
-                    if (!response.ok) throw new Error('Backend save failed');
-                    
-                    this.state = newState;
-                } catch (error) {
-                    console.error('Failed to save state to backend:', error);
-                    // Fallback to localStorage
-                    const newState = { ...this.state, ...updates };
-                    localStorage.setItem('leagueQuizState', JSON.stringify(newState));
-                    this.state = newState;
-                }
-            }
-
-            navigateToSavedPage() {
-                const currentPath = window.location.pathname;
-                const savedPage = this.state.currentPage;
-
-                // Map saved page states to URLs
-                const pageMap = {
-                    'index': '/',
-                    'role-select': '/role-select.html',
-                    'quiz': '/quiz.html'
-                };
-
-                // If we're not on the saved page, redirect
-                if (savedPage && pageMap[savedPage] && currentPath !== pageMap[savedPage]) {
-                    window.location.href = pageMap[savedPage];
-                }
-            }
-
-            async acceptQueue() {
-                await this.saveState({
-                    currentPage: 'role-select'
-                });
-                window.location.href = 'role-select.html';
-            }
-        }
-
-        // Initialize state manager
-        const stateManager = new StateManager();
-
         // Custom cursor tracking
         const cursor = document.getElementById('cursor');
         let mouseX = 0, mouseY = 0;
@@ -909,3 +818,103 @@
             }
             
             // Handle resize
+            window.addEventListener('resize', () => {
+                const newWidth = container.offsetWidth;
+                const newHeight = container.offsetHeight;
+                camera.aspect = newWidth / newHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(newWidth, newHeight);
+            });
+        }
+
+        // Particle system - Fixed positioning
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const colors = ['gold', 'blue', 'purple'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            particle.classList.add(color);
+            
+            // Fix particle positioning
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.width = particle.style.height = (Math.random() * 8 + 4) + 'px';
+            particle.style.animationDelay = Math.random() * 12 + 's';
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.remove();
+                }
+            }, 15000);
+        }
+
+        // Initialize everything
+        window.addEventListener('load', function() {
+            // Animate title letters individually
+            const title = document.getElementById('animated-title');
+            const text = title.textContent;
+            title.innerHTML = '';
+            
+            text.split('').forEach((letter, i) => {
+                const span = document.createElement('span');
+                span.textContent = letter === ' ' ? '\u00A0' : letter;
+                span.style.setProperty('--i', i);
+                title.appendChild(span);
+            });
+
+            // Create glowing particles around title
+            const titleContainer = document.getElementById('league-title');
+            for (let i = 0; i < 6; i++) {
+                const glow = document.createElement('div');
+                glow.className = 'title-glow';
+                glow.style.animationDelay = `${i * 1.67}s`;
+                glow.style.width = glow.style.height = `${Math.random() * 4 + 2}px`;
+                titleContainer.appendChild(glow);
+            }
+
+            // Countdown animation
+            const countdownNumber = document.querySelector('.countdown-number');
+            const countdownProgress = document.querySelector('.countdown-progress');
+            let countdownValue = 10;
+            
+            function updateCountdown() {
+                countdownValue--;
+                if (countdownValue < 0) {
+                    countdownValue = 10;
+                    countdownNumber.classList.remove('warning', 'danger');
+                }
+                
+                countdownNumber.textContent = countdownValue;
+                
+                // Change color based on time left
+                if (countdownValue <= 3) {
+                    countdownNumber.classList.add('danger');
+                    countdownNumber.classList.remove('warning');
+                } else if (countdownValue <= 5) {
+                    countdownNumber.classList.add('warning');
+                    countdownNumber.classList.remove('danger');
+                } else {
+                    countdownNumber.classList.remove('warning', 'danger');
+                }
+            }
+            
+            // Start countdown
+            setInterval(updateCountdown, 1000);
+
+            setTimeout(() => {
+                console.log('Creating left model...');
+                createModel('model-left', false); // Don't mirror left model
+                
+                setTimeout(() => {
+                    console.log('Creating right model...');
+                    createModel('model-right', true); // Mirror right model
+                }, 1000);
+                
+                // Start particle system
+                setInterval(createParticle, 300);
+            }, 100);
+        });
+    </script>
+</body>
+</html>
